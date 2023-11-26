@@ -8,6 +8,3 @@ app.start().catch((error: any) => {
   app.logger.error(error.stack);
   process.exit();
 });
-
-
-console.log('------------------------------------- 11111112');

@@ -22,6 +22,7 @@ const ROUTES = {
 };
 
 export default ({ config, logger, database, verify }: any) => {
+  /*
   const router = Router();
 
   if (config.env !== 'test') {
@@ -50,5 +51,5 @@ export default ({ config, logger, database, verify }: any) => {
     ...[logger, config],
   }));
 
-  return router;
+  return router;*/
 };

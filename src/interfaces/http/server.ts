@@ -1,8 +1,9 @@
 import Fastify from 'fastify'
 export default ({
-  //config,
+  config,
+
   //router,
-  //logger,
+  logger,
   //auth,
 }: {
   config: any;
@@ -10,6 +11,9 @@ export default ({
   logger: any;
   auth: any;
 }) => {
+
+  console.log('config config config config', config);
+
   const fastify = Fastify({
     logger: true
   });
@@ -21,12 +25,18 @@ export default ({
   return {
     app: fastify,
     start: async () =>
-      new Promise(() => {
+      new Promise(async () => {
+        try {
+          await fastify.listen({ port: config.port })
+
+          const address: any = fastify.server.address();
+          logger.info(`API - Port ${address?.port}`);
+        } catch (err) {
+          fastify.log.error(err);
+          process.exit(1)
+        }
+
         console.log('Promise Promise Promise Promise');
-       /* const http: any = app.listen(config.port, () => {
-          const { port } = http.address();
-          logger.info(`API - Port ${port}`);
-        });*/
       }),
   };
 };

@@ -20,7 +20,6 @@
     "noImplicitAny": true,
     "strict": true,
     "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "outDir": "./build",
     "lib": [
