@@ -1,23 +1,20 @@
-import Fastify from 'fastify'
+import Fastify from 'fastify';
+
+export const fastify = Fastify({
+  logger: true,
+});
+
 export default ({
   config,
-
-  //router,
+  router,
   logger,
-  //auth,
-}: {
+}: //auth,
+{
   config: any;
   router: any;
   logger: any;
   auth: any;
 }) => {
-
-  console.log('config config config config', config);
-
-  const fastify = Fastify({
-    logger: true
-  });
-
   //app.disable('x-powered-by');
   //app.use(auth.initialize());
   //app.use(router);
@@ -27,13 +24,13 @@ export default ({
     start: async () =>
       new Promise(async () => {
         try {
-          await fastify.listen({ port: config.port })
+          await fastify.listen(config.port, '0.0.0.0');
 
           const address: any = fastify.server.address();
           logger.info(`API - Port ${address?.port}`);
         } catch (err) {
           fastify.log.error(err);
-          process.exit(1)
+          process.exit(1);
         }
 
         console.log('Promise Promise Promise Promise');

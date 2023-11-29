@@ -4,6 +4,7 @@ import { Router, Request, Response } from 'express';
 import IUser from 'core/IUser';
 import { encryptPassword } from 'infra/encryption';
 
+// @TODO rewrite this module, replace express with fastify
 export default ({ postUseCase, jwt, logger, response: { Success, Fail } }: any) => {
   const router = Router();
 

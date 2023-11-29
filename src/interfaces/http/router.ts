@@ -11,6 +11,7 @@ import register from './modules/register';
 import users from './modules/users';
 import forgotPassword from './modules/forgot_password';
 import resetPassword from './modules/reset_password';
+import { fastify } from 'interfaces/http/server';
 
 const ROUTES = {
   AUTHENTICATE: '/auth/authenticate',
@@ -21,7 +22,24 @@ const ROUTES = {
   USERS: '/auth/users',
 };
 
-export default ({ config, logger, database, verify }: any) => {
+export default ({
+  config,
+  logger,
+}: //database,
+//verify
+any) => {
+  if (config.env !== 'test') {
+    //fastify.register(httpLogger(logger));
+  }
+
+  //fastify.register(ROUTES.INDEX, index());
+
+  void fastify.register(function (app, _, done) {
+    app.route(index());
+    // app.route(register().router);
+    done();
+  });
+
   /*
   const router = Router();
 
