@@ -1,19 +1,16 @@
 /* eslint-disable*/
 import Status from 'http-status';
-import { Router, Request, Response } from 'express';
 import IUser from 'core/IUser';
 import { encryptPassword } from 'infra/encryption';
 
 // @TODO rewrite this module, replace express with fastify
 export default ({ postUseCase, jwt, logger, response: { Success, Fail } }: any) => {
-  const router = Router();
-
-  router.post('/', async (req: Request, res: Response) => {
-    const { body = {} } = req || {};
+  async function handler(request, reply) {
+    const { body = {} } = request || {};
     const { email, password } = <IUser>body;
 
     if (!email || !password)
-      return res.status(Status.UNPROCESSABLE_ENTITY).json(Fail('Invalid parameters in request.'));
+      return reply.code(Status.UNPROCESSABLE_ENTITY).send(Fail('Invalid parameters in request.'));
 
     const hasPassword = encryptPassword(password);
 
@@ -26,12 +23,18 @@ export default ({ postUseCase, jwt, logger, response: { Success, Fail } }: any) 
         last_connected_at: null,
       });
 
-      return res.status(Status.OK).json(Success({ ...data }));
+      return reply.code(Status.OK).send(Success({ ...data }));
     } catch (error) {
       logger.error(error);
-      return res.status(Status.INTERNAL_SERVER_ERROR).json(Fail(error.message));
+      return reply.code(Status.INTERNAL_SERVER_ERROR).send(Fail(error.message));
     }
-  });
+    // reply.code(Status.OK).send({ hello: 'API working' });
+  }
 
-  return router;
+  return {
+    method: 'POST',
+    url: '/auth/register',
+    handler,
+    schema: {},
+  };
 };

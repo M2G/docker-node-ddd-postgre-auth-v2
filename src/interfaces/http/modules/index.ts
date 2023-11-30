@@ -4,7 +4,7 @@ export default () => {
   const route = {
     method: 'GET',
     url: '/',
-    handler: (request: any, reply: { code: (arg0: number) => { (): any; new(): any; send: { (arg0: { hello: string; }): void; new(): any; }; }; }) => {
+    handler: (request, reply) => {
       reply.code(Status.OK).send({ hello: 'API working' });
     },
     schema: {},

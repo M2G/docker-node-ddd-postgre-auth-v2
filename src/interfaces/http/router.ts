@@ -36,7 +36,7 @@ any) => {
 
   void fastify.register(function (app, _, done) {
     app.route(index());
-    // app.route(register().router);
+    app.route(register().router);
     done();
   });
 
