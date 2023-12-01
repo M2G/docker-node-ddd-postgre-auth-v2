@@ -22,7 +22,7 @@ container.register({
   database: asFunction(database).singleton(),
   jwt: asFunction(jwt).singleton(),
   logger: asFunction(logger).singleton(),
-  //redis: asFunction(redis).singleton(),
+  redis: asFunction(redis).singleton(),
   repository: asFunction(repository).singleton(),
   response: asFunction(response).singleton(),
   router: asFunction(router).singleton(),

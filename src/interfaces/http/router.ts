@@ -29,14 +29,16 @@ export default ({
 //verify
 any) => {
   if (config.env !== 'test') {
-    //fastify.register(httpLogger(logger));
+    // fastify.register(httpLogger(logger));
   }
 
-  //fastify.register(ROUTES.INDEX, index());
 
   void fastify.register(function (app, _, done) {
     app.route(index());
     app.route(register().router);
+    app.route(authenticate().router);
+    app.route(forgotPassword().router);
+    app.route(resetPassword().router);
     done();
   });
 

@@ -6,7 +6,7 @@ import { encryptPassword } from 'infra/encryption';
 // @TODO rewrite this module, replace express with fastify
 export default ({ postUseCase, jwt, logger, response: { Success, Fail } }: any) => {
   async function handler(request, reply) {
-    const { body = {} } = request || {};
+    const { body = {} } = request;
     const { email, password } = <IUser>body;
 
     if (!email || !password)
@@ -28,7 +28,6 @@ export default ({ postUseCase, jwt, logger, response: { Success, Fail } }: any) 
       logger.error(error);
       return reply.code(Status.INTERNAL_SERVER_ERROR).send(Fail(error.message));
     }
-    // reply.code(Status.OK).send({ hello: 'API working' });
   }
 
   return {
