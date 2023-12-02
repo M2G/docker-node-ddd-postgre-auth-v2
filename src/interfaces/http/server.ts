@@ -8,6 +8,7 @@ export default ({
   config,
   router,
   logger,
+  auth
 }: //auth,
 {
   config: any;
@@ -18,6 +19,14 @@ export default ({
   //app.disable('x-powered-by');
   //app.use(auth.initialize());
   //app.use(router);
+
+  void fastify.register(auth.initialize());
+  void fastify.register(function (app, _, done) {
+    Object.values(router).forEach((route: any) => {
+      app.route(route);
+    });
+    done();
+  });
 
   return {
     app: fastify,

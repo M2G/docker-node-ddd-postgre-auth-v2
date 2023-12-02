@@ -87,6 +87,7 @@
     "express": "4.18.2",
     "express-handlebars": "^6.0.7",
     "fastify": "^4.24.3",
+    "fastify-plugin": "^4.5.1",
     "handlebars": "^4.7.7",
     "http-status": "^1.6.2",
     "husky": "^7.0.4",

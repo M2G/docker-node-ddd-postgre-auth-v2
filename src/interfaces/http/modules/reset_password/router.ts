@@ -9,7 +9,6 @@ export default ({
                   response: { Success, Fail },
                   jwt,
                 }: any) => {
-
   async function handler(request, reply) {
     const { body = {} } = request || {};
     const { new_password, verify_password, token } = <any>body;
@@ -63,7 +62,7 @@ export default ({
 
   return {
     method: 'POST',
-    url: '/auth/register',
+    url: '/auth/reset-password',
     handler,
     schema: {},
   };

@@ -1,6 +1,5 @@
-import cors from 'cors';
+import cors from '@fastify/cors';
 import bodyParser from 'body-parser';
-import { Router } from 'express';
 
 import httpLogger from './middlewares/http_logger';
 import errorHandler from './middlewares/error_handler';
@@ -13,6 +12,7 @@ import forgotPassword from './modules/forgot_password';
 import resetPassword from './modules/reset_password';
 import { fastify } from 'interfaces/http/server';
 
+// @TODO create variables for routes
 const ROUTES = {
   AUTHENTICATE: '/auth/authenticate',
   FORGOT_PASSWORD: '/auth/forgot-password',
@@ -32,8 +32,13 @@ any) => {
     // fastify.register(httpLogger(logger));
   }
 
+  void fastify.register(cors, {
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: ['http://localhost:3002', 'http://localhost:3003'],
+  });
 
-  void fastify.register(function (app, _, done) {
+ /* void fastify.register(function (app, _, done) {
     app.route(index());
     app.route(register().router);
     app.route(authenticate().router);
@@ -41,6 +46,15 @@ any) => {
     app.route(resetPassword().router);
     done();
   });
+  */
+  const router = {
+    [ROUTES.AUTHENTICATE]: authenticate().router,
+    [ROUTES.FORGOT_PASSWORD]: forgotPassword().router,
+    [ROUTES.INDEX]: index(),
+    [ROUTES.REGISTER]: register().router,
+    [ROUTES.RESET_PASSWORD]: resetPassword().router,
+   // [ROUTES.USERS]: users().router,
+  };
 
   /*
   const router = Router();
@@ -72,4 +86,6 @@ any) => {
   }));
 
   return router;*/
+
+  return router;
 };

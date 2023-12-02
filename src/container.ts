@@ -3,7 +3,7 @@ import { createContainer, asValue, asFunction } from 'awilix';
 import app from './app';
 import server from './interfaces/http/server';
 import router from './interfaces/http/router';
-//import auth from './interfaces/http/auth';
+import auth from './interfaces/http/auth';
 import verify from './interfaces/http/middlewares/verify';
 import config from '../config';
 import jwt from './infra/jwt/jwt';
@@ -17,7 +17,7 @@ const container = createContainer();
 
 container.register({
   app: asFunction(app).singleton(),
-  //auth: asFunction(auth).singleton(),
+  auth: asFunction(auth).singleton(),
   config: asValue(config),
   database: asFunction(database).singleton(),
   jwt: asFunction(jwt).singleton(),
