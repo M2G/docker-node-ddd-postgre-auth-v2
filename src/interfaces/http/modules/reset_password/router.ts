@@ -1,6 +1,5 @@
 /* eslint-disable*/
 import Status from 'http-status';
-import { Router, Request, Response } from 'express';
 import { encryptPassword } from 'infra/encryption';
 // import { smtpTransport, template } from 'nodemailer';
 
@@ -10,14 +9,13 @@ export default ({
                   response: { Success, Fail },
                   jwt,
                 }: any) => {
-  const router = Router();
 
-  router.post('/', async (req: Request, res: Response) => {
-    const { body = {} } = req || {};
+  async function handler(request, reply) {
+    const { body = {} } = request || {};
     const { new_password, verify_password, token } = <any>body;
 
     if (!token || !new_password || !verify_password || new_password !== verify_password) {
-      return res.status(Status.UNPROCESSABLE_ENTITY).json(Fail('Invalid parameters in request.'));
+      return reply.code(Status.UNPROCESSABLE_ENTITY).send(Fail('Invalid parameters in request.'));
     }
 
     try {
@@ -30,7 +28,7 @@ export default ({
 
      const user = await postUseCase.resetPassword({ password: hashPassword, token });
 
-      if (!user) return res.status(Status.NOT_FOUND).json(Fail('Not found user'));
+      if (!user) return reply.code(Status.NOT_FOUND).send(Fail('Not found user'));
 
       console.log('user user user user user', user)
 
@@ -55,13 +53,18 @@ export default ({
       */
 
       logger.info({ ...user });
-      return res.status(Status.OK).json(Success({ success: true }));
+      return reply.code(Status.OK).send(Success({ success: true }));
 
     } catch (error: any) {
       logger.error(error);
-      return res.status(Status.INTERNAL_SERVER_ERROR).json(Fail(error.message));
+      return reply.code(Status.INTERNAL_SERVER_ERROR).send(Fail(error.message));
     }
-  });
+}
 
-  return router;
+  return {
+    method: 'POST',
+    url: '/auth/register',
+    handler,
+    schema: {},
+  };
 };
