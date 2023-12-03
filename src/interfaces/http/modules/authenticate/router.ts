@@ -4,9 +4,10 @@ import Status from 'http-status';
 import { Router, Request, Response } from 'express';
 import IUser from 'core/IUser';
 
-export default ({ jwt, postUseCase, logger, response: { Success, Fail } }: any) => {
+export default ({ verify, jwt, postUseCase, logger, response: { Success, Fail } }: any) => {
   async function handler(request, reply) {
-    const { body } = request;
+
+    /*const { body } = request;
 
     const { password, email } = <IUser>body;
 
@@ -50,7 +51,7 @@ export default ({ jwt, postUseCase, logger, response: { Success, Fail } }: any) 
     } catch (error: any) {
       logger.error(error);
       return reply.status(Status.INTERNAL_SERVER_ERROR).json(Fail(error.message));
-    }
+    }*/
   }
 
   return {
@@ -58,5 +59,6 @@ export default ({ jwt, postUseCase, logger, response: { Success, Fail } }: any) 
     url: '/auth/authenticate',
     handler,
     schema: {},
+    preValidation: verify
   };
 };

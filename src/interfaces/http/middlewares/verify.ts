@@ -1,7 +1,6 @@
 /*eslint-disable*/
-import { Router, Request, Response, NextFunction } from 'express';
+import fp from 'fastify-plugin';
 import Status from 'http-status';
-const router = Router();
 
 const time =
   process.env.NODE_ENV === 'development'
@@ -11,13 +10,20 @@ const time =
 const TOKEN_EXPIRED_ERROR = 'TokenExpiredError';
 const FAIL_AUTH = 'Failed to authenticate token is expired.';
 
-export default ({ response: { Fail }, jwt }: any) =>
-  router.use((req: Request, res: Response, next: NextFunction) => {
-    const extractToken =
-      req?.headers?.authorization?.startsWith('Bearer ');
+export default ({ response: { Fail }, jwt }: any) => {
+
+  return (req: any, res: any, next: any) => {
+
+    console.log('req req req', req?.headers);
+
+    console.log('req req req', res);
+    res.code(Status.OK).send(Fail('OK'));
+
+ /*   const extractToken =
+      opts.request?.headers?.authorization?.startsWith('Bearer ');
 
     if (extractToken) {
-      const token = req?.headers?.authorization?.split(' ')?.[1];
+      const token = opts.request?.headers?.authorization?.split(' ')?.[1];
 
       try {
         jwt.verify({ maxAge: time })(token);
@@ -27,7 +33,7 @@ export default ({ response: { Fail }, jwt }: any) =>
             Fail({
               success: false,
               expireTime: true,
-                message: FAIL_AUTH,
+              message: FAIL_AUTH,
             }),
           );
         }
@@ -48,5 +54,6 @@ export default ({ response: { Fail }, jwt }: any) =>
         success: false,
         message: 'No token provided.',
       }),
-    );
-  });
+    );*/
+  }
+}

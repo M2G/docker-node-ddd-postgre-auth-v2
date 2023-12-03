@@ -32,8 +32,14 @@ export default ({ repository: { usersRepository }, response: { Fail }, jwt }: an
 
   return {
     initialize: () => passport.initialize(),
-    authenticate: (request: FastifyRequest, reply: FastifyReply, next) =>
-      passport.authenticate('bearer', { session: false }, (err, _) => {
+    authenticate: (request: FastifyRequest, reply: FastifyReply, next) => {
+      console.log('passport.authenticate passport.authenticate', {
+        request,
+        reply,
+        next,
+      });
+    },
+    /*passport.authenticate('bearer', { session: false }, (err, _) => {
         console.log('passport.authenticate passport.authenticate', err);
 
         if (err === Status[Status.NOT_FOUND]) {
@@ -45,6 +51,6 @@ export default ({ repository: { usersRepository }, response: { Fail }, jwt }: an
         }
 
         return next();
-      })(request, reply, next),
+      })(request, reply, next),*/
   };
 };

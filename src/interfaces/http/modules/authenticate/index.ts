@@ -7,6 +7,7 @@ export default () => {
     logger,
     jwt,
     config,
+    verify,
     response: { Success, Fail },
   } = container.cradle;
   const app = instance();
@@ -14,6 +15,7 @@ export default () => {
   return {
     app,
     router: router({
+      verify,
       config,
       jwt,
       logger,

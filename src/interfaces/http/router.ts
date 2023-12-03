@@ -25,8 +25,8 @@ const ROUTES = {
 export default ({
   config,
   logger,
+                  verify
 }: //database,
-//verify
 any) => {
   if (config.env !== 'test') {
     // fastify.register(httpLogger(logger));

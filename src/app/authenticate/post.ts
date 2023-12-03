@@ -14,6 +14,7 @@ const TTL = 60 * 60;
 export default ({
   redis,
   usersRepository,
+                  verify,
 }: {
   redis: {
     set: (key: string, value: any, ttlInSeconds?: number) => boolean;

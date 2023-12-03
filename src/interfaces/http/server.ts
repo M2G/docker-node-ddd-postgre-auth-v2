@@ -8,7 +8,7 @@ export default ({
   config,
   router,
   logger,
-  auth
+  auth,
 }: //auth,
 {
   config: any;
