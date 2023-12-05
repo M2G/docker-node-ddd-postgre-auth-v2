@@ -38,8 +38,7 @@ export default ({ repository: { usersRepository }, response: { Fail }, jwt }: an
         reply,
         next,
       });
-    },
-    /*passport.authenticate('bearer', { session: false }, (err, _) => {
+      /*return passport.authenticate('bearer', { session: false }, (err, _) => {
         console.log('passport.authenticate passport.authenticate', err);
 
         if (err === Status[Status.NOT_FOUND]) {
@@ -51,6 +50,7 @@ export default ({ repository: { usersRepository }, response: { Fail }, jwt }: an
         }
 
         return next();
-      })(request, reply, next),*/
+      })(request, reply, next);*/
+    },
   };
 };

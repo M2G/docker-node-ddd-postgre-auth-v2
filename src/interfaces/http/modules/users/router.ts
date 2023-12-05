@@ -12,14 +12,16 @@ export default ({
   response: { Success, Fail },
   auth,
 }: any) => {
-  const router = Router();
+
+  /* const router = Router();
 
   router.use((req: Request, res: Response, next: NextFunction) =>
     auth.authenticate(req, res, next),
-  );
+  );*/
 
-  router.get('/', async (req: Request, res: Response) => {
-    const { query } = req;
+  // get all
+  async function handlerGetAll(request, reply) {
+    const { query } = request;
     const { filters, pageSize, page } = query;
 
     try {
@@ -27,19 +29,27 @@ export default ({
         filters ? { filters } : pageSize && page ? { pageSize, page } : {},
       );
 
-      res.status(Status.OK).json(Success(data));
+      reply.status(Status.OK).json(Success(data));
     } catch (error) {
       logger.error(error);
-      res.status(Status.BAD_REQUEST).json(Fail(error.message));
+      reply.status(Status.BAD_REQUEST).json(Fail(error.message));
     }
-  });
+  }
 
-  router.get('/:id', async (req: Request, res: Response) => {
-    const { params } = req;
+  const routerGetAll = {
+    method: 'GET',
+    url: '/auth/users',
+    handler: handlerGetAll,
+    schema: {},
+  }
+
+  // get by id
+  async function handlerGetById(request, reply) {
+    const { params } = request;
     const { id } = params;
 
     if (!id)
-      return res
+      return reply
         .status(Status.UNPROCESSABLE_ENTITY)
         .json(Fail('Invalid id parameters in request.'));
 
@@ -49,17 +59,25 @@ export default ({
       console.log('data data data data', data);
 
       logger.debug(data);
-      return res.status(Status.OK).json(Success(data));
+      return reply.code(Status.OK).send(Success(data));
     } catch (error: any) {
       logger.error(error);
-      return res.status(Status.BAD_REQUEST).json(Fail(error.message));
+      return reply.code(Status.BAD_REQUEST).send(Fail(error.message));
     }
-  });
+  }
 
-  router.post('/', async (req: Request, res: Response) => {});
+  const routerGetById = {
+    method: 'GET',
+    url: '/auth/users/:id',
+    handler: handlerGetById,
+    schema: {},
+  }
 
-  router.put('/:id', async (req: Request, res: Response) => {
-    const { body = {}, params } = req;
+ // router.post('/', async (req: Request, res: Response) => {});
+
+  // get by id
+  async function handlerUpdateById(request, reply) {
+    const { body = {}, params } = request;
     const { id } = params;
 
     const values = body && Object.entries(body).length === 0;
@@ -67,7 +85,7 @@ export default ({
     console.log('values values values values values values', values);
 
     if (!id || values)
-      return res.status(Status.UNPROCESSABLE_ENTITY).json(Fail('Invalid parameters in request.'));
+      return reply.code(Status.UNPROCESSABLE_ENTITY).send(Fail('Invalid parameters in request.'));
 
     try {
       const updateValue: IUser = {
@@ -77,33 +95,54 @@ export default ({
 
       const data = await putUseCase.update({ id, ...updateValue });
       logger.debug(data);
-      if (!data) return res.status(Status.NOT_FOUND).json(Fail());
-      return res.status(Status.OK).json(Success());
+      if (!data) return reply.code(Status.NOT_FOUND).send(Fail());
+      return reply.code(Status.OK).send(Success());
     } catch (error: any) {
       logger.error(error);
-      return res.status(Status.BAD_REQUEST).json(Fail(error.message));
+      return reply.code(Status.BAD_REQUEST).send(Fail(error.message));
     }
-  });
+  }
 
-  router.delete('/:id', async (req: Request, res: Response) => {
-    const { params } = req;
+  const routerUpdateById = {
+    method: 'PUT',
+    url: '/auth/users/:id',
+    handler: handlerUpdateById,
+    schema: {},
+  }
+
+  // delete by id
+  async function handlerDeleteById(request, reply) {
+    const { params } = request;
     const { id } = params;
 
     if (!id)
-      return res
-        .status(Status.UNPROCESSABLE_ENTITY)
-        .json(Fail('Invalid id parameters in request.'));
+      return reply
+        .code(Status.UNPROCESSABLE_ENTITY)
+        .send(Fail('Invalid id parameters in request.'));
 
     try {
       const data = await deleteUseCase.remove({ id });
       logger.debug(data);
-      if (!data) return res.status(Status.NOT_FOUND).json(Fail());
-      return res.status(Status.OK).json(Success());
+      if (!data) return reply.code(Status.NOT_FOUND).send(Fail());
+      return reply.code(Status.OK).send(Success());
     } catch (error: any) {
       logger.error(error);
-      return res.status(Status.INTERNAL_SERVER_ERROR).json(Fail(error.message));
+      return reply.code(Status.INTERNAL_SERVER_ERROR).send(Fail(error.message));
     }
-  });
+  }
 
-  return router;
+  const routerDeleteById = {
+    method: 'DELETE',
+    url: '/auth/users/:id',
+    handler: handlerDeleteById,
+    schema: {},
+  }
+
+  return {
+    ...routerGetAll,
+    ...routerGetById,
+    ...routerDeleteById,
+    ...routerUpdateById,
+  }
+
 };

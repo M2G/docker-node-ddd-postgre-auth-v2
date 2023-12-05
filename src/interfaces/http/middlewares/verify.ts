@@ -1,5 +1,4 @@
 /*eslint-disable*/
-import fp from 'fastify-plugin';
 import Status from 'http-status';
 
 const time =
@@ -12,24 +11,19 @@ const FAIL_AUTH = 'Failed to authenticate token is expired.';
 
 export default ({ response: { Fail }, jwt }: any) => {
 
-  return (req: any, res: any, next: any) => {
-
-    console.log('req req req', req?.headers);
-
-    console.log('req req req', res);
-    res.code(Status.OK).send(Fail('OK'));
-
- /*   const extractToken =
-      opts.request?.headers?.authorization?.startsWith('Bearer ');
+  return (request: any, reply: any, next: any) => {
+    console.log('VERIFY');
+    const extractToken =
+      request.headers?.authorization?.startsWith('Bearer ');
 
     if (extractToken) {
-      const token = opts.request?.headers?.authorization?.split(' ')?.[1];
+      const token = request.headers?.authorization?.split(' ')?.[1];
 
       try {
         jwt.verify({ maxAge: time })(token);
-      } catch (e: any) {
+      } catch (e) {
         if (e.name === TOKEN_EXPIRED_ERROR) {
-          return res.status(Status.UNAUTHORIZED).json(
+          return reply.code(Status.UNAUTHORIZED).send(
             Fail({
               success: false,
               expireTime: true,
@@ -38,7 +32,7 @@ export default ({ response: { Fail }, jwt }: any) => {
           );
         }
 
-        return res.status(Status.BAD_REQUEST).json(
+        return reply.code(Status.BAD_REQUEST).send(
           Fail({
             success: false,
             message: Status[Status.BAD_REQUEST],
@@ -49,11 +43,11 @@ export default ({ response: { Fail }, jwt }: any) => {
       return next();
     }
 
-    return res.status(Status.UNAUTHORIZED).json(
+    return reply.code(Status.UNAUTHORIZED).send(
       Fail({
         success: false,
         message: 'No token provided.',
       }),
-    );*/
+    );
   }
 }

@@ -25,7 +25,7 @@ const ROUTES = {
 export default ({
   config,
   logger,
-                  verify
+  verify,
 }: //database,
 any) => {
   if (config.env !== 'test') {
@@ -38,7 +38,7 @@ any) => {
     origin: ['http://localhost:3002', 'http://localhost:3003'],
   });
 
- /* void fastify.register(function (app, _, done) {
+  /* void fastify.register(function (app, _, done) {
     app.route(index());
     app.route(register().router);
     app.route(authenticate().router);
@@ -53,7 +53,7 @@ any) => {
     [ROUTES.INDEX]: index(),
     [ROUTES.REGISTER]: register().router,
     [ROUTES.RESET_PASSWORD]: resetPassword().router,
-   // [ROUTES.USERS]: users().router,
+    [ROUTES.USERS]: users().router,
   };
 
   /*

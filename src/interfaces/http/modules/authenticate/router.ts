@@ -4,7 +4,10 @@ import Status from 'http-status';
 import { Router, Request, Response } from 'express';
 import IUser from 'core/IUser';
 
-export default ({ verify, jwt, postUseCase, logger, response: { Success, Fail } }: any) => {
+export default ({ auth, verify, jwt, postUseCase, logger, response: { Success, Fail } }: any) => {
+
+  console.log('auth auth auth', auth);
+
   async function handler(request, reply) {
 
     /*const { body } = request;
@@ -59,6 +62,11 @@ export default ({ verify, jwt, postUseCase, logger, response: { Success, Fail } 
     url: '/auth/authenticate',
     handler,
     schema: {},
-    preValidation: verify
+    //preValidation: verify,
+    preValidation: (a, b, c) => {
+      console.log('preValidation preValidation preValidation');
+      c()
+    },
+    preHandler: auth.authenticate,
   };
 };
