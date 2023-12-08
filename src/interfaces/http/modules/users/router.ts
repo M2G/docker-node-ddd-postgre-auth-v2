@@ -1,6 +1,4 @@
-/* eslint-disable*/
 import Status from 'http-status';
-import { Router, Request, Response, NextFunction } from 'express';
 import IUser from 'core/IUser';
 
 export default ({
@@ -11,6 +9,7 @@ export default ({
   logger,
   response: { Success, Fail },
   auth,
+  verify
 }: any) => {
 
   /* const router = Router();
@@ -41,6 +40,8 @@ export default ({
     url: '/auth/users',
     handler: handlerGetAll,
     schema: {},
+    preValidation: verify,
+    preHandler: auth.authenticate,
   }
 
   // get by id
@@ -71,6 +72,8 @@ export default ({
     url: '/auth/users/:id',
     handler: handlerGetById,
     schema: {},
+    preValidation: verify,
+    preHandler: auth.authenticate,
   }
 
  // router.post('/', async (req: Request, res: Response) => {});
@@ -108,6 +111,8 @@ export default ({
     url: '/auth/users/:id',
     handler: handlerUpdateById,
     schema: {},
+    preValidation: verify,
+    preHandler: auth.authenticate,
   }
 
   // delete by id
@@ -136,6 +141,8 @@ export default ({
     url: '/auth/users/:id',
     handler: handlerDeleteById,
     schema: {},
+    preValidation: verify,
+    preHandler: auth.authenticate,
   }
 
   return {

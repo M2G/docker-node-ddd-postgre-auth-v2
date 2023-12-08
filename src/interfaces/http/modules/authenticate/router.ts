@@ -62,11 +62,5 @@ export default ({ auth, verify, jwt, postUseCase, logger, response: { Success, F
     url: '/auth/authenticate',
     handler,
     schema: {},
-    //preValidation: verify,
-    preValidation: (a, b, c) => {
-      console.log('preValidation preValidation preValidation');
-      c()
-    },
-    preHandler: auth.authenticate,
   };
 };

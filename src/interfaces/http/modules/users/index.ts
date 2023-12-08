@@ -9,6 +9,7 @@ export default () => {
     logger,
     response: { Success, Fail },
     auth,
+    verify
   } = cradle;
   const app = instance();
 
@@ -16,6 +17,7 @@ export default () => {
     app,
     router: router({
       auth,
+      verify,
       logger,
       response: { Fail, Success },
       ...app,

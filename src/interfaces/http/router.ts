@@ -29,7 +29,7 @@ export default ({
 }: //database,
 any) => {
   if (config.env !== 'test') {
-    // fastify.register(httpLogger(logger));
+    fastify.register(() => httpLogger(logger));
   }
 
   void fastify.register(cors, {
@@ -86,6 +86,11 @@ any) => {
   }));
 
   return router;*/
+
+  fastify.register(() => ({
+    ...errorHandler,
+    ...[logger, config],
+  }));
 
   return router;
 };
