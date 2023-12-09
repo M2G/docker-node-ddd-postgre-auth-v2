@@ -60,6 +60,10 @@ any) => {
     [ROUTES.USERS]: users().router,
   };
 
+  void fastify.register(function (app, _, done) {
+    // app.route(route);
+    done();
+  });
   /*
   const router = Router();
 

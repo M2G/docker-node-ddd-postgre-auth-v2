@@ -1,31 +1,31 @@
+import type IUser from 'core/IUser';
+
 import Status from 'http-status';
-import IUser from 'core/IUser';
 
 export default ({
+  auth,
+  deleteUseCase,
   getOneUseCase,
   getUseCase,
-  putUseCase,
-  deleteUseCase,
   logger,
-  response: { Success, Fail },
-  auth,
-  verify
+  putUseCase,
+  response: { Fail, Success },
+  verify,
 }: any) => {
-
   /* const router = Router();
 
   router.use((req: Request, res: Response, next: NextFunction) =>
     auth.authenticate(req, res, next),
-  );*/
+  ); */
 
   // get all
   async function handlerGetAll(request, reply) {
     const { query } = request;
-    const { filters, pageSize, page } = query;
+    const { filters, page, pageSize } = query;
 
     try {
       const data = await getUseCase.all(
-        filters ? { filters } : pageSize && page ? { pageSize, page } : {},
+        filters ? { filters } : pageSize && page ? { page, pageSize } : {},
       );
 
       reply.status(Status.OK).json(Success(data));
@@ -36,23 +36,25 @@ export default ({
   }
 
   const routerGetAll = {
-    method: 'GET',
-    url: '/auth/users',
+    beforeHandler: [verify, auth.authenticate],
     handler: handlerGetAll,
+    method: 'GET',
     schema: {},
-    preValidation: verify,
-    preHandler: auth.authenticate,
-  }
+    url: '/auth/users',
+    // preValidation: verify,
+    // preHandler: auth.authenticate,
+  };
 
   // get by id
   async function handlerGetById(request, reply) {
     const { params } = request;
     const { id } = params;
 
-    if (!id)
+    if (!id) {
       return reply
         .status(Status.UNPROCESSABLE_ENTITY)
         .json(Fail('Invalid id parameters in request.'));
+    }
 
     try {
       const data = await getOneUseCase.getOne({ id });
@@ -68,15 +70,16 @@ export default ({
   }
 
   const routerGetById = {
-    method: 'GET',
-    url: '/auth/users/:id',
+    beforeHandler: [verify, auth.authenticate],
     handler: handlerGetById,
+    method: 'GET',
     schema: {},
-    preValidation: verify,
-    preHandler: auth.authenticate,
-  }
+    url: '/auth/users/:id',
+    // preValidation: verify,
+    // preHandler: auth.authenticate,
+  };
 
- // router.post('/', async (req: Request, res: Response) => {});
+  // router.post('/', async (req: Request, res: Response) => {});
 
   // get by id
   async function handlerUpdateById(request, reply) {
@@ -107,23 +110,25 @@ export default ({
   }
 
   const routerUpdateById = {
-    method: 'PUT',
-    url: '/auth/users/:id',
+    beforeHandler: [verify, auth.authenticate],
     handler: handlerUpdateById,
+    method: 'PUT',
     schema: {},
-    preValidation: verify,
-    preHandler: auth.authenticate,
-  }
+    url: '/auth/users/:id',
+    // preValidation: verify,
+    // preHandler: auth.authenticate,
+  };
 
   // delete by id
   async function handlerDeleteById(request, reply) {
     const { params } = request;
     const { id } = params;
 
-    if (!id)
+    if (!id) {
       return reply
         .code(Status.UNPROCESSABLE_ENTITY)
         .send(Fail('Invalid id parameters in request.'));
+    }
 
     try {
       const data = await deleteUseCase.remove({ id });
@@ -137,19 +142,19 @@ export default ({
   }
 
   const routerDeleteById = {
-    method: 'DELETE',
-    url: '/auth/users/:id',
+    beforeHandler: [verify, auth.authenticate],
     handler: handlerDeleteById,
+    method: 'DELETE',
     schema: {},
-    preValidation: verify,
-    preHandler: auth.authenticate,
-  }
+    url: '/auth/users/:id',
+    // preValidation: verify,
+    // preHandler: auth.authenticate,
+  };
 
   return {
     ...routerGetAll,
     ...routerGetById,
     ...routerDeleteById,
     ...routerUpdateById,
-  }
-
+  };
 };
