@@ -6,7 +6,9 @@ export default (
   logger: any,
   config: any,
 ) => {
-  logger.error(err);
+
+  console.log('-------------------------------------------')
+ /* logger.error(err);
 
   const response = {
     type: 'InternalServerError',
@@ -16,5 +18,5 @@ export default (
     },
   };
 
-  res.status(500).json(response);
+  res.code(500).send(response);*/
 };

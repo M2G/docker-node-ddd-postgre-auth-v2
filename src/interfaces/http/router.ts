@@ -29,7 +29,11 @@ export default ({
 }: //database,
 any) => {
   if (config.env !== 'test') {
-    fastify.register(() => httpLogger(logger));
+    /*
+    fastify.register(() => {
+     httpLogger(logger);
+   });
+   */
   }
 
   void fastify.register(cors, {
@@ -39,14 +43,14 @@ any) => {
   });
 
   /* void fastify.register(function (app, _, done) {
-    app.route(index());
-    app.route(register().router);
-    app.route(authenticate().router);
-    app.route(forgotPassword().router);
-    app.route(resetPassword().router);
-    done();
-  });
-  */
+   app.route(index());
+   app.route(register().router);
+   app.route(authenticate().router);
+   app.route(forgotPassword().router);
+   app.route(resetPassword().router);
+   done();
+ });
+ */
   const router = {
     [ROUTES.AUTHENTICATE]: authenticate().router,
     [ROUTES.FORGOT_PASSWORD]: forgotPassword().router,
@@ -87,10 +91,10 @@ any) => {
 
   return router;*/
 
-  fastify.register(() => ({
+  /* fastify.register(() => ({
     ...errorHandler,
     ...[logger, config],
   }));
-
+*/
   return router;
 };

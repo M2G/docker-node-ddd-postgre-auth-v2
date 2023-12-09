@@ -10,7 +10,7 @@ export default ({ auth, verify, jwt, postUseCase, logger, response: { Success, F
 
   async function handler(request, reply) {
 
-    /*const { body } = request;
+    const { body } = request;
 
     const { password, email } = <IUser>body;
 
@@ -54,7 +54,7 @@ export default ({ auth, verify, jwt, postUseCase, logger, response: { Success, F
     } catch (error: any) {
       logger.error(error);
       return reply.status(Status.INTERNAL_SERVER_ERROR).json(Fail(error.message));
-    }*/
+    }
   }
 
   return {

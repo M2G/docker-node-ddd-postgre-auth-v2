@@ -4,18 +4,19 @@ export const fastify = Fastify({
   logger: true,
 });
 
+interface IApp {
+  config: any;
+  router: any;
+  logger: any;
+  auth: any;
+}
+
 export default ({
   config,
   router,
   logger,
   auth,
-}: //auth,
-{
-  config: any;
-  router: any;
-  logger: any;
-  auth: any;
-}) => {
+}: IApp) => {
   //app.disable('x-powered-by');
   //app.use(auth.initialize());
   //app.use(router);
