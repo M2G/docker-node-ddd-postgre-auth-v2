@@ -29,6 +29,10 @@ export default ({
 }: //database,
 any) => {
   if (config.env !== 'test') {
+    fastify.addHook('preHandler', (_, __, done) => {
+      httpLogger(logger);
+      done();
+    });
     /*
     fastify.register(() => {
      httpLogger(logger);
@@ -60,10 +64,6 @@ any) => {
     [ROUTES.USERS]: users().router,
   };
 
-  void fastify.register(function (app, _, done) {
-    // app.route(route);
-    done();
-  });
   /*
   const router = Router();
 
@@ -100,5 +100,10 @@ any) => {
     ...[logger, config],
   }));
 */
+
+  fastify.setErrorHandler(function (error, request, reply) {
+    errorHandler(error, request, reply, logger, config);
+  });
+
   return router;
 };

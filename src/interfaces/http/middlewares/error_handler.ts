@@ -1,3 +1,5 @@
+import Status from 'http-status';
+
 export default (
   err: any,
   req: any,
@@ -7,8 +9,7 @@ export default (
   config: any,
 ) => {
 
-  console.log('-------------------------------------------')
- /* logger.error(err);
+  logger.error(err);
 
   const response = {
     type: 'InternalServerError',
@@ -18,5 +19,5 @@ export default (
     },
   };
 
-  res.code(500).send(response);*/
+  res.code(Status.INTERNAL_SERVER_ERROR).send(response);
 };
