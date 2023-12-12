@@ -5,24 +5,20 @@ export const fastify = Fastify({
 });
 
 interface IApp {
-  config: any;
-  router: any;
-  logger: any;
-  auth: any;
+  auth: { initialize: () => any };
+  config: { port: number };
+  logger: { info: (message: string) => void };
+  router: Record<string, any>;
 }
 
 export default ({
-  config,
-  router,
-  logger,
   auth,
+  config,
+  logger,
+  router,
 }: IApp) => {
-  //app.disable('x-powered-by');
-  //app.use(auth.initialize());
-  //app.use(router);
-
   void fastify.register(auth.initialize());
-  void fastify.register(function (app, _, done) {
+  void fastify.register((app, _, done) => {
     Object.values(router).forEach((route: any) => {
       app.route(route);
     });

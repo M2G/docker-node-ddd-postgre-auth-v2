@@ -10,14 +10,14 @@ export default ({ repository: { usersRepository }, response: { Fail }, jwt }: an
   // @ts-ignore
   const bearerStrategy = new BearerStrategy(
     'bearer',
-    (token: any, done: (arg0: any, arg1: { email: any; password: any } | null) => any) => {
+    (token: any, done: (arg0: any, arg1: { email: string; password: string }| null) => any) => {
       const { id }: any | number = jwt.decode()(token);
 
       console.log('email email email', id);
 
       usersRepository
         .findOne({ id })
-        .then((user: any) => {
+        .then((user: { email: string; password: string }) => {
           if (!user) return done(Status[Status.NOT_FOUND], null);
           done(null, { email: user.email, password: user.password });
         })

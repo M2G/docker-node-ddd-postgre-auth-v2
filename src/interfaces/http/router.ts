@@ -22,17 +22,13 @@ const ROUTES = {
   USERS: '/auth/users',
 };
 
-export default ({
-  config,
-  logger,
-  verify,
-}: //database,
-any) => {
+export default ({ config, logger, verify }: any) => {
   if (config.env !== 'test') {
     fastify.addHook('preHandler', (_, __, done) => {
       httpLogger(logger);
       done();
     });
+
     /*
     fastify.register(() => {
      httpLogger(logger);

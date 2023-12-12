@@ -1,9 +1,9 @@
 /**
  * this file will hold all the get use-case for user domain
  */
-import Users from 'domain/users';
-import type IUsersRepository from 'types/IUsersRepository';
 import type IUser from 'core/IUser';
+
+import Users from 'domain/users';
 
 const KEY = 'LAST_CONNECTED_AT';
 const TTL = 60 * 60;
@@ -14,12 +14,11 @@ const TTL = 60 * 60;
 export default ({
   redis,
   usersRepository,
-                  verify,
 }: {
   redis: {
     set: (key: string, value: any, ttlInSeconds?: number) => boolean;
   };
-  usersRepository: IUsersRepository;
+  usersRepository: { authenticate: (arg0: { email: string }) => Promise<IUser> };
 }) => {
   const authenticate = async ({ email }: { readonly email: string }): Promise<IUser> => {
     try {
