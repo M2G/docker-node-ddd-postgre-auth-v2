@@ -28,9 +28,9 @@ export default ({
   return {
     app: fastify,
     start: async () =>
-      new Promise(async () => {
+      new Promise(async (): Promise<void> => {
         try {
-          await fastify.listen(config.port, '0.0.0.0');
+          await fastify.listen({ host: '0.0.0.0', port: config.port });
 
           const address: any = fastify.server.address();
           logger.info(`API - Port ${address?.port}`);

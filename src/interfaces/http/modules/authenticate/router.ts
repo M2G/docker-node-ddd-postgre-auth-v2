@@ -1,7 +1,6 @@
 /* eslint-disable*/
 import bcrypt from 'bcrypt';
 import Status from 'http-status';
-import { Router, Request, Response } from 'express';
 import IUser from 'core/IUser';
 
 export default ({ auth, verify, jwt, postUseCase, logger, response: { Success, Fail } }: any) => {
