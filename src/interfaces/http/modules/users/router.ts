@@ -151,10 +151,5 @@ export default ({
     // preHandler: auth.authenticate,
   };
 
-  return {
-    ...routerGetAll,
-    ...routerGetById,
-    ...routerDeleteById,
-    ...routerUpdateById,
-  };
+  return [routerGetAll, routerGetById, routerDeleteById, routerUpdateById];
 };
