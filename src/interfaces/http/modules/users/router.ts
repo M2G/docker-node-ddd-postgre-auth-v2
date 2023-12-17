@@ -19,7 +19,7 @@ export default ({
   ); */
 
   // get all
-  async function getAll(request, reply) {
+  async function handlerGetAll(request, reply) {
     const { query } = request;
     const { filters, page, pageSize } = query;
 
@@ -37,7 +37,7 @@ export default ({
 
   const routerGetAll = {
     beforeHandler: [verify, auth.authenticate],
-    handler: getAll,
+    handler: handlerGetAll,
     method: 'GET',
     schema: {},
     url: '/auth/users',
@@ -71,7 +71,7 @@ export default ({
 
   const routerGetById = {
     beforeHandler: [verify, auth.authenticate],
-    handler: getById,
+    handler: handlerGetById,
     method: 'GET',
     schema: {},
     url: '/auth/users/:id',
@@ -82,7 +82,7 @@ export default ({
   // router.post('/', async (req: Request, res: Response) => {});
 
   // get by id
-  async function updateById(request, reply) {
+  async function handlerUpdateById(request, reply) {
     const { body = {}, params } = request;
     const { id } = params;
 
@@ -120,7 +120,7 @@ export default ({
   };
 
   // delete by id
-  async function deleteById(request, reply) {
+  async function handlerDeleteById(request, reply) {
     const { params } = request;
     const { id } = params;
 
