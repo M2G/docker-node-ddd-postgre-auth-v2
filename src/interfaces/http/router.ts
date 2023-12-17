@@ -1,5 +1,4 @@
 import cors from '@fastify/cors';
-import bodyParser from 'body-parser';
 
 import httpLogger from './middlewares/http_logger';
 import errorHandler from './middlewares/error_handler';
